@@ -1,4 +1,5 @@
 import tkinter.messagebox
+from random import random
 from tkinter import *
 
 class HBUI:
@@ -6,10 +7,19 @@ class HBUI:
     buttonsWidth, buttonsHeight = 5, 5
     buttons = [5, 5]
     bingocases = []
+    bingocaseUsed = []
     bingo = False
+
+    def GetBingoText(self):
+        index = int((len(self.bingocases) - 1) * random())
+        if self.bingocaseUsed[index]:
+            return self.GetBingoText()
+        self.bingocaseUsed[index] = True
+        return self.bingocases[index]
 
     def __init__(self, __bingocases : list):
         self.bingocases = __bingocases
+        self.bingocaseUsed = [False for i in range(len(__bingocases))]
         self.buttons = [["" for x in range(self.buttonsWidth)] for y in range(self.buttonsHeight)]
         self.tk.resizable(False, False)
 
@@ -41,8 +51,8 @@ class HBUI:
 
         for x in range(0, 5):
             for y in range(0, 5):
-
-                self.buttons[x][y] = Button(self.tk, text=self.bingocases[0], command=lambda x=x, y=y: self.ButtonCallback(x,y), wraplength = 100)
+                bingotext = self.GetBingoText()
+                self.buttons[x][y] = Button(self.tk, text = bingotext, width = 13, height = 5,command=lambda x=x, y=y: self.ButtonCallback(x,y), wraplength = 90)
                 self.buttons[x][y].place(x=x*100,y=y*100)
 
         self.tk.mainloop()
