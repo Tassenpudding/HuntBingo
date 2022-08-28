@@ -32,7 +32,7 @@ class HBUI:
     def ButtonCallback(self, x, y):
         currentButton = self.buttons[x][y]
         currentButton.configure(state=DISABLED)
-        currentButton.configure(bg = "green")
+        currentButton.configure(bg = "lightgreen")
         self.CheckBingo(x, y)
 
     def CreateWindow(self):
