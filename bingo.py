@@ -1,25 +1,30 @@
 import sys, getopt
 import tkinter.messagebox
 from tkinter import *
-
 from HBUI import HBUI
+import logging
 
 def read_file(path):
     bingocases = []
 
-    f = open(path, "r", encoding = 'utf8')
+    try:
+        f = open(path, "r", encoding = 'utf8')
+    except:
+        logging.error("ERROR when opening file ({path})")
     lines = f.readlines()
     for line in lines:
         line = line.replace("\n","")
         bingocases.append(line)
 
+    logging.info(f"file ({path}) read successfully")
+    logging.info(f"found {len(bingocases)} entries")
     return bingocases
 
 def parseArgs(argv):
     try:
         optlist, args = getopt.getopt(argv[1:], "f:", ["file="])
     except getopt.GetoptError:
-        print('error when parsing args')
+        logging.error("couldn't parse console arguments")
         sys.exit(2)
 
     path = ""
@@ -28,9 +33,14 @@ def parseArgs(argv):
         if opt == "-f":
             path = arg
 
+    logging.info("filename {path} fetched from argument list")
+
     return path #, arg2, arg3
 
 def main():
+    # TODO find good filename
+    filename = ""
+    logging.basicConfig(format='%(levelname)s:\t%(message)s', level=logging.DEBUG, filename=".\logs\{filename}.txt")
     # handle arguments
     path = parseArgs(sys.argv)
     # fetch list of all possible bingo-events from path
