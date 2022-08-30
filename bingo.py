@@ -7,7 +7,10 @@ import logging
 def read_file(path):
     bingocases = []
 
-    f = open(path, "r", encoding = 'utf8')
+    try:
+        f = open(path, "r", encoding = 'utf8')
+    except:
+        logging.error("ERROR when opening file ({path})")
     lines = f.readlines()
     for line in lines:
         line = line.replace("\n","")
@@ -35,7 +38,9 @@ def parseArgs(argv):
     return path #, arg2, arg3
 
 def main():
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+    # TODO find good filename
+    filename = ""
+    logging.basicConfig(format='%(levelname)s:\t%(message)s', level=logging.DEBUG, filename=".\logs\{filename}.txt")
     # handle arguments
     path = parseArgs(sys.argv)
     # fetch list of all possible bingo-events from path
