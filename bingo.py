@@ -1,6 +1,7 @@
 import sys, getopt
 import tkinter.messagebox
 from tkinter import *
+import logging
 
 from HBUI import HBUI
 
@@ -12,6 +13,10 @@ def read_file(path):
     for line in lines:
         line = line.replace("\n","")
         bingocases.append(line)
+
+    if(len(bingocases) < 25):
+        logging.error("not enough bingocases found")
+        sys.exit(2)
 
     return bingocases
 
@@ -33,8 +38,10 @@ def parseArgs(argv):
 def main():
     # handle arguments
     path = parseArgs(sys.argv)
+
     # fetch list of all possible bingo-events from path
     bingocases = read_file(path)
+
     # create UI and feed bingo-events into object
     hbui = HBUI(bingocases)
     hbui.CreateWindow()
