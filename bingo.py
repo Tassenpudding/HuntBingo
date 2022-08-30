@@ -7,7 +7,7 @@ from HBUI import HBUI
 def read_file(path):
     bingocases = []
 
-    f = open(path,"r")
+    f = open(path, "r", encoding = 'utf8')
     lines = f.readlines()
     for line in lines:
         line = line.replace("\n","")
